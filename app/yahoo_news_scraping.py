@@ -18,12 +18,11 @@ class YahooNewsScraping(BaseScraping):
         soup = BeautifulSoup(response.text, 'html.parser')
 
         tags = soup.find_all(class_='newsFeed_item_link')
-
-        result = []
-        for tag in tags:
-            result.append([
-                tag.text,
-                tag.get('href')
-            ])
             
-        return result
+        return list(map(self.create_result, tags))
+
+    def create_result(self, tag): 
+        return [
+            tag.text,
+            tag.get('href')
+        ]
