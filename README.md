@@ -37,3 +37,6 @@ https://notify-bot.line.me/ja/
 ~~~bash
 python main.py
 ~~~
+
+## 処理イメージ
+![処理イメージ](./images/NewsNotifier.drawio.png "処理イメージ")
