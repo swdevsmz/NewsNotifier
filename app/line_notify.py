@@ -39,4 +39,6 @@ class LineNotify:
         config_path = os.path.join(path, 'config.ini')
 
         # 設定ファイルの読み込み
-        return configparser.ConfigParser().read(config_path, encoding='utf-8')
+        config = configparser.ConfigParser()
+        config.read(config_path, encoding='utf-8')
+        return config
