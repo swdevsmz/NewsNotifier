@@ -19,13 +19,13 @@ class BaseScraping:
         last_result = self.read_last_csv()
 
         # スクレイピングの実行
-        result = self.scraping()
+        current_result = self.scraping()
 
         # 今回のスクレイピング結果を保存
-        self.output_csv(result)
+        self.output_csv(current_result)
 
         # 今回と前回のスクレイピング結果の差分を抽出
-        diff_list = self.get_diff(result, last_result)
+        diff_list = self.get_diff(current_result, last_result)
 
         if diff_list:
             # 差分がある場合のみLINEに通知
@@ -45,9 +45,9 @@ class BaseScraping:
 
     def read_last_csv(self):
         if not os.path.exists(self.log_file_name):
-            raise Exception('ファイルがありません。')
+            raise FileNotFoundError('ファイルがありません。')
         if os.path.getsize(self.log_file_name) == 0:
-            raise Exception('ファイルの中身が空です。')
+            raise FileNotFoundError('ファイルの中身が空です。')
         csv_list = pd.read_csv(self.log_file_name, header=None).values.tolist()
         return csv_list
 
@@ -59,12 +59,12 @@ class BaseScraping:
             for row in result:
                 writer.writerow(row)
 
-    def get_diff(self, result, last_result):
-        return_list = []
-        for tmp in result:
+    def get_diff(self, current_result, last_result):
+        diff_list = []
+        for tmp in current_result:
             if tmp not in last_result:
-                return_list.append(tmp)
-        return return_list
+                diff_list.append(tmp)
+        return diff_list
 
     def send_to_line(self, diff_list):
         message = ''
