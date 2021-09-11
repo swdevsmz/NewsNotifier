@@ -9,6 +9,10 @@ from app.line_notify import LineNotify
 
 
 class BaseScraping:
+    """ スクレイピングの既定クラス
+    スクレイピング、結果の保存、前回の結果との比較、差分がある場合はLINE通知を行います。
+    スクレイピングメソッドのみサイトによって実装が異なるため、サブクラスでオーバーライドします。
+    """
 
     def __init__(self, log_file_name, base_url):
         self.log_file_name = log_file_name

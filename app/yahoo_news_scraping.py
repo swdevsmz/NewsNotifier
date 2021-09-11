@@ -13,15 +13,18 @@ class YahooNewsScraping(BaseScraping):
         super(YahooNewsScraping, self).__init__(self.LOG_FILE_NAME, self.BASE_URL)
 
     def scraping(self):
+        # リクエストを送信してページを取得
         response = super(YahooNewsScraping, self).get_page(self.BASE_URL)
 
+        # ページを解析し、ニュースフィードのリンクタグを取得
         soup = BeautifulSoup(response.text, 'html.parser')
-
         tags = soup.find_all(class_='newsFeed_item_link')
-            
-        return list(map(self.create_result, tags))
 
-    def create_result(self, tag): 
+        # タグからスクレイピング結果を作成
+        return list(map(self.__create_result, tags))
+
+    @classmethod
+    def __create_result(cls, tag):
         return [
             tag.text,
             tag.get('href')
